@@ -100,3 +100,6 @@ ALLOWED_HOSTS = ['*']
 import os
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+import os
+
+SECRET_KEY = os.environ.get('-y6+)ms*v*ylj7$@q_iq78pj_s3t2g88mng#s#5lr9x6lzdgo_')
