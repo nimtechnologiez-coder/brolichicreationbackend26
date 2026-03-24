@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job List</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" href="{% static 'admin_layout.css' %}">
+</head>
+ 
+<body>
+
+<div class="sidebar" id="sidebar">
+    <button class="close-sidebar-btn" onclick="toggleSidebar()">✕</button>
+    <div class="sidebar-logo">🚀 Admin</div>
+    <ul class="nav-links">
+        <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'add_job' %}">Add Live Job</a></li>
+        <li><a href="{% url 'job_list' %}" class="active">Job List</a></li>
+        <li><a href="{% url 'applications' %}">Applications</a></li>
+        <li><a href="/">Logout</a></li>
+    </ul>
+</div>
+ 
+<div class="mobile-nav">
+    <div style="font-weight: 800; color: #0f172a; font-size: 20px;">🚀 Admin</div>
+    <button class="ham-btn" onclick="toggleSidebar()">☰</button>
+</div>
+
+<div class="main-content">
+    <div class="page-head">
+        <h1>All Job Postings</h1>
+        <p>Monitor your active opportunities</p>
+    </div>
+    
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Department</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <td style="font-weight: 600;">{{ job.title }}</td>
+                    <td>{{ job.location }}</td>
+                    <td>{{ job.department }}</td>
+                    <td><span style="color: #FF8A00; font-weight: 700;">{{ job.job_type }}</span></td>
+                    <td>
+                        <div class="action-box">
+                            <button class="icon-btn edit-btn" onclick="openEdit('{{ job.id }}', '{{ job.title|escapejs }}', '{{ job.location|escapejs }}', '{{ job.department|escapejs }}', '{{ job.job_type|escapejs }}', '{{ job.description|escapejs }}', '{{ job.responsibilities|escapejs }}', '{{ job.requirements|escapejs }}')">✎</button>
+                            <button class="icon-btn delete-btn" onclick="openDelete('{{ job.id }}')">🗑</button>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" style="text-align: center; color: #64748b; padding: 40px;">No postings found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- FIXED OVERLAY MODALS -->
+<div class="fixed-overlay" id="editModal">
+    <div class="modal-content">
+        <h2 style="margin-bottom: 25px; font-weight: 800;">Edit Job</h2>
+        <form id="editForm" method="POST">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label>Job Title</label>
+                <input type="text" name="title" class="glass-input" required>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <label>Location</label>
+                    <input type="text" name="location" class="glass-input" required>
+                </div>
+                <div>
+                    <label>Job Type</label>
+                    <select name="job_type" class="glass-input">
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Internship">Internship</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label>Department</label>
+                <select name="department" class="glass-input">
+                    <option value="Transports & Logistics">Transports & Logistics</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Sales & Marketing">Sales & Marketing</option>
+                    <option value="Human Resources">Human Resources</option>
+                    <option value="Finance">Finance</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label>Description</label>
+                <textarea name="description" class="glass-input" style="height: 80px;"></textarea>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label>Responsibilities</label>
+                <textarea name="responsibilities" class="glass-input" style="height: 80px;"></textarea>
+            </div>
+            <div style="margin-bottom: 25px;">
+                <label>Requirements</label>
+                <textarea name="requirements" class="glass-input" style="height: 80px;"></textarea>
+            </div>
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+                <button type="button" onclick="closeModal()" style="border: none; background: none; color: #64748b; cursor: pointer;">Cancel</button>
+                <button type="submit" class="btn-main" style="padding: 12px 25px;">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="fixed-overlay" id="deleteModal">
+    <div class="modal-content" style="text-align: center;">
+        <h2 style="color: #f43f5e; margin-bottom: 15px; font-weight: 800;">Delete Confirmation</h2>
+        <p style="color: #64748b; margin-bottom: 30px;">Are you sure you want to delete this job posting?</p>
+        <form id="deleteForm" method="POST">
+            {% csrf_token %}
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <button type="button" onclick="closeModal()" style="border: none; background: none; color: #64748b; cursor: pointer;">Cancel</button>
+                <button type="submit" class="btn-main" style="background: #f43f5e;">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("active");
+}
+function openEdit(id, title, location, department, type, description, responsibilities, requirements){
+  const modal = document.getElementById("editModal");
+  const form = document.getElementById("editForm");
+  form.action = "/update-job/" + id + "/";
+  form.querySelector("[name='title']").value = title;
+  form.querySelector("[name='location']").value = location;
+  form.querySelector("[name='department']").value = department;
+  form.querySelector("[name='job_type']").value = type;
+  form.querySelector("[name='description']").value = description;
+  form.querySelector("[name='responsibilities']").value = responsibilities;
+  form.querySelector("[name='requirements']").value = requirements;
+  modal.style.display = "flex";
+}
+function openDelete(id){
+  const modal = document.getElementById("deleteModal");
+  const form = document.getElementById("deleteForm");
+  form.action = "/delete-job/" + id + "/";
+  modal.style.display = "flex";
+}
+function closeModal(){
+  document.getElementById("editModal").style.display = "none";
+  document.getElementById("deleteModal").style.display = "none";
+}
+</script>
+ 
+</body>
+</html>

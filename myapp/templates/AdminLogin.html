@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #0b0f1a, #101828);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #f8fafc;
+    }
+
+    .container {
+      width: 400px;
+      padding: 40px;
+      border-radius: 32px;
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    .container h2 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.025em;
+      color: #FF8A00;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      outline: none;
+      background: rgba(15, 23, 42, 0.6);
+      color: white;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #FF8A00;
+      box-shadow: 0 0 0 5px rgba(255, 138, 0, 0.15);
+    }
+
+    .input-group input::placeholder {
+      color: #64748b;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #FF8A00, #FF6B00);
+      color: white;
+      font-weight: 700;
+      font-size: 17px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+      box-shadow: 0 10px 20px -3px rgba(255, 138, 0, 0.3);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 30px -5px rgba(255, 138, 0, 0.4);
+    }
+
+    .extra {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .error {
+      color: #f87171;
+      font-size: 14px;
+      margin-top: 20px;
+      display: none;
+      padding: 12px;
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      border-radius: 12px;
+    }
+
+    @media(max-width: 440px) {
+      .container {
+        width: 92%;
+        padding: 40px 25px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>🚀 Admin Panel</h2>
+    <p style="color: #94a3b8; font-size: 14px; margin-top: -20px; margin-bottom: 25px;">Sign in to continue</p>
+
+<form action="{% url 'admin_login' %}" method="POST">
+  {% csrf_token %}
+  <div class="input-group">
+    <input type="text" name="username" placeholder="Username" required autocomplete="username">
+  </div>
+
+  <div class="input-group">
+    <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
+  </div>
+
+  <button type="submit" class="login-btn">Secure Login</button>
+
+  {% if messages %}
+    <div class="error" style="display: block;">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+  {% endif %}
+</form>
+
+<div class="extra">
+  <span style="color: #FF8A00;">Brolichi</span> Creation Enterprises
+</div>
+</div>
+
+  <script>
+    // Traditional POST handle ensures Django CSRF and Auth work out of the box
+  </script>
+
+  <style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+  </style>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+ 
+body {
+  display: flex;
+  background: linear-gradient(135deg, #0b0f1a, #101828);
+  min-height: 100vh;
+  color: #f8fafc;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: rgba(11, 22, 35, 0.98);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  color: #fff;
+  padding: 30px 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2000;
+}
+
+.sidebar h2 {
+  margin-bottom: 50px;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #FF8A00;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.sidebar ul li:hover a,
+.sidebar ul li a.active {
+  background: rgba(255, 138, 0, 0.1);
+  color: #FF8A00;
+  box-shadow: inset 0 0 0 1px rgba(255, 138, 0, 0.2);
+}
+
+/* Main */
+.main {
+  margin-left: 260px;
+  padding: 50px;
+  width: calc(100% - 260px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main h1 {
+  font-weight: 700;
+  font-size: 36px;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.main p {
+  color: #64748b;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+/* ===== TABLE ===== */
+.table-container {
+  background: rgba(30, 41, 59, 0.25);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 8px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px; /* Applications need more space */
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 18px 20px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Applications Table Column Widths */
+th:nth-child(1), td:nth-child(1) { width: 15%; } /* Name */
+th:nth-child(2), td:nth-child(2) { width: 22%; } /* Email */
+th:nth-child(3), td:nth-child(3) { width: 18%; } /* Role */
+th:nth-child(4), td:nth-child(4) { width: 33%; } /* Cover Letter */
+th:nth-child(5), td:nth-child(5) { width: 12%; } /* Date */
+
+th {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+td {
+  color: #cbd5e1;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* ===== FILTER UI ===== */
+.filter-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.filter-section input[type="date"] {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 14px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.filter-section input[type="date"]:focus {
+  border-color: #FF8A00;
+  box-shadow: 0 0 0 4px rgba(255, 138, 0, 0.15);
+}
+
+.filter-btn {
+  background: linear-gradient(135deg, #FF8A00, #FF6B00);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 16px -4px rgba(255, 138, 0, 0.3);
+  transition: 0.3s;
+}
+
+.filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px -4px rgba(255, 138, 0, 0.4);
+}
+
+/* Mobile Nav Same as Dashboard */
+.menu-btn {
+  display: none;
+  background: rgba(255, 138, 0, 0.1);
+  color: #FF8A00;
+  border: 1px solid rgba(255, 138, 0, 0.2);
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  font-size: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .sidebar { left: -320px; }
+  .sidebar.active { left: 0; }
+  .main { margin-left: 0; width: 100%; padding: 30px 20px; }
+  .menu-btn { display: flex; }
+  .close-sidebar { display: flex; position: absolute; top: 20px; right: 20px; }
+}
+
+@media (max-width: 480px) {
+  .main h1 { font-size: 28px; }
+  th, td { padding: 14px 15px; }
+}

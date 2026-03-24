@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Job</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" href="{% static 'admin_layout.css' %}">
+</head>
+ 
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-sidebar-btn" onclick="toggleSidebar()">✕</button>
+        <div class="sidebar-logo">🚀 Admin</div>
+        <ul class="nav-links">
+            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'add_job' %}" class="active">Add Live Job</a></li>
+            <li><a href="{% url 'job_list' %}">Job List</a></li>
+            <li><a href="{% url 'applications' %}">Applications</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="mobile-nav">
+        <div style="font-weight: 800; color: #0f172a; font-size: 20px;">🚀 Admin</div>
+        <button class="ham-btn" onclick="toggleSidebar()">☰</button>
+    </div>
+
+<div class="main-content">
+    <div class="page-head">
+        <h1>Add Live Job</h1>
+        <p>Create a new career opportunity</p>
+    </div>
+    
+    <div class="table-box" style="padding: 50px; max-width: 800px;">
+        <form method="POST">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <label>Job Title</label>
+                <input type="text" name="title" class="glass-input" placeholder="e.g. Senior Developer" required>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div>
+                     <label>Location</label>
+                     <input type="text" name="location" class="glass-input" placeholder="e.g. Harare" required>
+                </div>
+                <div>
+                     <label>Job Type</label>
+                     <select name="job_type" class="glass-input">
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Internship">Internship</option>
+                     </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label>Department</label>
+                <select name="department" class="glass-input">
+                    <option value="Transports & Logistics">Transports & Logistics</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Sales & Marketing">Sales & Marketing</option>
+                    <option value="Human Resources">Human Resources</option>
+                    <option value="Finance">Finance</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label>Short Description</label>
+                <textarea name="description" class="glass-input" placeholder="Brief overview of the role..." required style="height: 100px;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label>Responsibilities (one per line)</label>
+                <textarea name="responsibilities" class="glass-input" placeholder="Key tasks..." required style="height: 120px;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <label>Requirements (one per line)</label>
+                <textarea name="requirements" class="glass-input" placeholder="Must-have skills..." required style="height: 120px;"></textarea>
+            </div>
+
+            <div style="text-align: right;">
+                <button type="submit" class="btn-main" style="padding: 18px 50px;">Publish Job</button>
+            </div>
+        </form>
+    </div>
+</div>
+ 
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applications</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" href="{% static 'admin_layout.css' %}">
+</head>
+ 
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-sidebar-btn" onclick="toggleSidebar()">✕</button>
+        <div class="sidebar-logo">🚀 Admin</div>
+        <ul class="nav-links">
+            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'add_job' %}">Add Live Job</a></li>
+            <li><a href="{% url 'job_list' %}">Job List</a></li>
+            <li><a href="{% url 'applications' %}" class="active">Applications</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="mobile-nav">
+        <div style="font-weight: 800; color: #0f172a; font-size: 20px;">🚀 Admin</div>
+        <button class="ham-btn" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="main-content">
+    <div class="page-head">
+        <h1>Applications</h1>
+        <p>Review candidate submissions</p>
+    </div>
+    
+    <div class="table-box">
+        <table>
+            <thead>
+                    <tr>
+                        <th style="width: 15%;">Name</th>
+                        <th style="width: 20%;">Email</th>
+                        <th style="width: 15%;">Role</th>
+                        <th style="width: 20%;">Cover Letter</th>
+                        <th style="width: 10%;">Resume</th>
+                        <th style="width: 10%;">Apply Date</th>
+                        <th style="width: 10%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td style="font-weight: 600; color: white;">{{ app.name }}</td>
+                        <td>{{ app.email }}</td>
+                        <td><span style="color: var(--primary); font-weight: 700;">{{ app.job.title }}</span></td>
+                        <td style="font-size: 13px; color: var(--text-dim);">
+                            {{ app.cover_letter|slice:":50" }}{% if app.cover_letter|length > 50 %}...{% endif %}
+                        </td>
+                        <td>
+                            {% if app.resume %}
+                                <a href="{{ app.resume.url }}" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">View Resume</a>
+                            {% else %}
+                                <span style="color: var(--text-dim);">No Resume</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                        <td>
+                            <div class="action-box">
+                                <button class="icon-btn view-btn" onclick="openView('{{ app.name|escapejs }}', '{{ app.email|escapejs }}', '{{ app.job.title|escapejs }}', '{{ app.cover_letter|escapejs }}')">👁</button>
+                                <button class="icon-btn delete-btn" onclick="openDelete('{{ app.id }}')">🗑</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                <tr><td colspan="5" style="text-align: center; color: #64748b; padding: 40px;">No applications found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="fixed-overlay" id="viewModal">
+    <div class="modal-content">
+        <h2 style="margin-bottom: 20px; font-weight: 800;">Application Details</h2>
+        <div style="margin-bottom: 15px;">
+            <label>Name</label>
+            <p id="viewName" style="color: white; font-weight: 600;"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label>Email</label>
+            <p id="viewEmail" style="color: var(--text-dim);"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label>Role</label>
+            <p id="viewRole" style="color: var(--primary); font-weight: 700;"></p>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label>Cover Letter</label>
+            <div id="viewCoverLetter" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; color: #cbd5e1; font-size: 14px; line-height: 1.6; max-height: 300px; overflow-y: auto; white-space: pre-wrap;"></div>
+        </div>
+        <div style="text-align: right;">
+            <button type="button" onclick="closeModal()" class="btn-main" style="padding: 10px 30px;">Close</button>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-overlay" id="deleteModal">
+    <div class="modal-content" style="text-align: center;">
+        <h2 style="color: #f43f5e; margin-bottom: 15px; font-weight: 800;">Delete Application</h2>
+        <p style="color: #64748b; margin-bottom: 30px;">Are you sure you want to delete this application permanently?</p>
+        <form id="deleteForm" method="POST">
+            {% csrf_token %}
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <button type="button" onclick="closeModal()" style="border: none; background: none; color: #64748b; cursor: pointer;">Cancel</button>
+                <button type="submit" class="btn-main" style="background: #f43f5e;">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+ 
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+        function openView(name, email, role, coverLetter){
+          const modal = document.getElementById("viewModal");
+          document.getElementById("viewName").innerText = name;
+          document.getElementById("viewEmail").innerText = email;
+          document.getElementById("viewRole").innerText = role;
+          document.getElementById("viewCoverLetter").innerText = coverLetter;
+          modal.style.display = "flex";
+        }
+        function openDelete(id){
+          const modal = document.getElementById("deleteModal");
+          const form = document.getElementById("deleteForm");
+          form.action = "/delete-application/" + id + "/";
+          modal.style.display = "flex";
+        }
+        function closeModal(){
+          document.getElementById("viewModal").style.display = "none";
+          document.getElementById("deleteModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
