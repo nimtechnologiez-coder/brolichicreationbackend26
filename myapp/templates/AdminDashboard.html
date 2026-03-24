@@ -91,15 +91,27 @@
 
     <!-- FIXED OVERLAY MODALS -->
     <div class="fixed-overlay" id="editModal">
-        <div class="modal-content">
+        <div class="modal-content modal-lg">
             <h2 style="margin-bottom: 25px; font-weight: 800;">Edit Job</h2>
             <form id="editForm" method="POST">
                 {% csrf_token %}
-                <div style="margin-bottom: 15px;">
-                    <label>Job Title</label>
-                    <input type="text" name="title" class="glass-input" required>
+                <div class="grid-2" style="margin-bottom: 15px;">
+                    <div>
+                        <label>Job Title</label>
+                        <input type="text" name="title" class="glass-input" required>
+                    </div>
+                    <div>
+                        <label>Department</label>
+                        <select name="department" class="glass-input">
+                            <option value="Transports & Logistics">Transports & Logistics</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Sales & Marketing">Sales & Marketing</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                        </select>
+                    </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div class="grid-2" style="margin-bottom: 15px;">
                     <div>
                         <label>Location</label>
                         <input type="text" name="location" class="glass-input" required>
@@ -114,27 +126,19 @@
                         </select>
                     </div>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Department</label>
-                    <select name="department" class="glass-input">
-                        <option value="Transports & Logistics">Transports & Logistics</option>
-                        <option value="Operations">Operations</option>
-                        <option value="Sales & Marketing">Sales & Marketing</option>
-                        <option value="Human Resources">Human Resources</option>
-                        <option value="Finance">Finance</option>
-                    </select>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Description</label>
-                    <textarea name="description" class="glass-input" style="height: 80px;"></textarea>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Responsibilities</label>
-                    <textarea name="responsibilities" class="glass-input" style="height: 80px;"></textarea>
-                </div>
-                <div style="margin-bottom: 25px;">
-                    <label>Requirements</label>
-                    <textarea name="requirements" class="glass-input" style="height: 80px;"></textarea>
+                <div class="grid-3" style="margin-bottom: 25px;">
+                    <div>
+                        <label>Description</label>
+                        <textarea name="description" class="glass-input" style="height: 100px; resize: vertical;"></textarea>
+                    </div>
+                    <div>
+                        <label>Responsibilities</label>
+                        <textarea name="responsibilities" class="glass-input" style="height: 100px; resize: vertical;"></textarea>
+                    </div>
+                    <div>
+                        <label>Requirements</label>
+                        <textarea name="requirements" class="glass-input" style="height: 100px; resize: vertical;"></textarea>
+                    </div>
                 </div>
                 <div style="display: flex; gap: 15px; justify-content: flex-end;">
                     <button type="button" onclick="closeModal()"
