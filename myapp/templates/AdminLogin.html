@@ -264,6 +264,12 @@
   </div>
 
   <script>
+    // Security: Prevent navigating back to protected pages after logout
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.go(1);
+    };
+
     function togglePasswordVisibility() {
       const passwordInput = document.getElementById('password');
       const eyeIcon = document.getElementById('eye-icon');

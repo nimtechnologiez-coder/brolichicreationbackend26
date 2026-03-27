@@ -6,6 +6,7 @@ from .models import Job, Application
 from django.utils.dateparse import parse_date
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 from django.contrib import messages
 
 # API for React
@@ -101,6 +102,7 @@ def admin_logout(request):
 
 # Dashboard Page
 @login_required(login_url='admin_login')
+@never_cache
 def admin_dashboard(request):
     total_jobs = Job.objects.all().count()
     total_applications = Application.objects.all().count()
@@ -115,6 +117,7 @@ def admin_dashboard(request):
 
 # Add Job Page
 @login_required(login_url='admin_login')
+@never_cache
 def add_job(request):
     # ... logic ...
     if request.method == 'POST':
@@ -143,6 +146,7 @@ def add_job(request):
 
 # Job List Page
 @login_required(login_url='admin_login')
+@never_cache
 def job_list(request):
     jobs = Job.objects.all().order_by('-posted_at')
     return render(request, 'job_list.html', {'jobs': jobs})
@@ -150,6 +154,7 @@ def job_list(request):
 
 # Applications Page
 @login_required(login_url='admin_login')
+@never_cache
 def applications(request):
     filter_date = request.GET.get('date')
     apps = Application.objects.all().order_by('-applied_at')
@@ -164,6 +169,7 @@ def applications(request):
 
 # Logic to update job
 @login_required(login_url='admin_login')
+@never_cache
 def update_job(request, job_id):
     if request.method == 'POST':
         job = get_object_or_404(Job, id=job_id)
@@ -180,6 +186,7 @@ def update_job(request, job_id):
 
 # Logic to delete job
 @login_required(login_url='admin_login')
+@never_cache
 def delete_job(request, job_id):
     if request.method == 'POST':
         job = get_object_or_404(Job, id=job_id)
@@ -189,6 +196,7 @@ def delete_job(request, job_id):
 
 # Logic to delete application
 @login_required(login_url='admin_login')
+@never_cache
 def delete_application(request, app_id):
     if request.method == 'POST':
         app = get_object_or_404(Application, id=app_id)
