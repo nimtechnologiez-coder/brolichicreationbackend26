@@ -63,6 +63,10 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # 🗄️ DATABASE (FINAL FIX ✅)
 db_url = os.environ.get("DATABASE_URL", "postgresql://postgres.taewjreakljsmdmfzaqt:Saikumar278@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres")
 
+# If a stale MySQL URL is found in local environment variables, override it
+if db_url and db_url.startswith("mysql://"):
+    db_url = "postgresql://postgres.taewjreakljsmdmfzaqt:Saikumar278@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres"
+
 if db_url:
     # Fix bytes issue
     if isinstance(db_url, bytes):

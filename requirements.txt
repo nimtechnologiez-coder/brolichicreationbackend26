@@ -1,8 +1,8 @@
-psycopg2-binary==2.9.11
-pymysql
-dj-database-url==3.0.1
+Django==4.2.29
 gunicorn==23.0.0
+dj-database-url==3.0.1
+psycopg2-binary==2.9.11
+django-cors-headers==4.7.0
 django-bootstrap5==26.2
 whitenoise==6.11.0
-django-cors-headers==4.7.0
-﻿Django==4.2.29
+pymysql
