@@ -1,6 +1,7 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 from myapp import views
 
 urlpatterns = [
@@ -16,4 +17,8 @@ urlpatterns = [
     path('delete-job/<int:job_id>/', views.delete_job, name='delete_job'),
     path('delete-application/<int:app_id>/', views.delete_application, name='delete_application'),
     path('logout/', views.admin_logout, name='admin_logout'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]

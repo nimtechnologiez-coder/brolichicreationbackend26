@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login</title>
+  <title>Admin Login - Brolichi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  {% load static %}
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -17,150 +18,266 @@
     }
 
     body {
-      height: 100vh;
-      background: linear-gradient(135deg, #0b0f1a, #101828);
+      min-height: 100vh;
+      background-color: #0f172a;
+      /* Deep Navy */
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       color: #f8fafc;
+      padding: 20px;
     }
 
-    .container {
-      width: 400px;
-      padding: 40px;
-      border-radius: 32px;
-      background: rgba(30, 41, 59, 0.4);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.6);
+    .header-text {
       text-align: center;
-    }
-
-    .container h2 {
       margin-bottom: 30px;
+    }
+
+    .header-text h1 {
       font-weight: 700;
-      font-size: 28px;
-      letter-spacing: -0.025em;
-      color: #FF8A00;
+      font-size: 24px;
+      margin-bottom: 8px;
     }
 
-    .input-group {
-      position: relative;
-      margin: 20px 0;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      outline: none;
-      background: rgba(15, 23, 42, 0.6);
-      color: white;
-      font-size: 15px;
-      transition: all 0.3s;
-    }
-
-    .input-group input:focus {
-      border-color: #FF8A00;
-      box-shadow: 0 0 0 5px rgba(255, 138, 0, 0.15);
-    }
-
-    .input-group input::placeholder {
-      color: #64748b;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 18px;
-      border: none;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #FF8A00, #FF6B00);
-      color: white;
-      font-weight: 700;
-      font-size: 17px;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 10px;
-      box-shadow: 0 10px 20px -3px rgba(255, 138, 0, 0.3);
-    }
-
-    .login-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 30px -5px rgba(255, 138, 0, 0.4);
-    }
-
-    .extra {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #64748b;
+    .header-text p {
+      font-size: 16px;
       font-weight: 500;
+      color: #e2e8f0;
     }
 
-    .error {
-      color: #f87171;
-      font-size: 14px;
-      margin-top: 20px;
-      display: none;
-      padding: 12px;
-      background: rgba(248, 113, 113, 0.1);
-      border: 1px solid rgba(248, 113, 113, 0.2);
+    .login-wrapper {
+      width: 100%;
+      max-width: 440px;
+
+    }
+
+    .card {
+      background: #ffffff;
       border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      color: #1e293b;
     }
 
-    @media(max-width: 440px) {
-      .container {
-        width: 92%;
-        padding: 40px 25px;
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-container img {
+      width: 100%;
+      max-width: 180px;
+      max-height: 130px;
+      height: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .card h2 {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #0f172a;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper svg.icon-left {
+      position: absolute;
+      left: 14px;
+      width: 20px;
+      height: 20px;
+      color: #64748b;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrapper input:focus {
+      border-color: #ff8a00;
+      box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.1);
+    }
+
+    .input-wrapper input::placeholder {
+      color: #94a3b8;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      cursor: pointer;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .toggle-password svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #ff8a00;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .submit-btn:hover {
+      background-color: #e67a00;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 5px;
+      text-align: center;
+      background: #fef2f2;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #fecaca;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
       }
     }
   </style>
-
 </head>
 
 <body>
 
-  <div class="container">
-    <h2>🚀 Admin Panel</h2>
-    <p style="color: #94a3b8; font-size: 14px; margin-top: -20px; margin-bottom: 25px;">Sign in to continue</p>
-
-<form action="{% url 'admin_login' %}" method="POST">
-  {% csrf_token %}
-  <div class="input-group">
-    <input type="text" name="username" placeholder="Username" required autocomplete="username">
+  <div class="header-text">
+    <h1>Admin Portal</h1>
+    <p>Brolichi Creation Enterprise Limited</p>
   </div>
 
-  <div class="input-group">
-    <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
-  </div>
+  <div class="login-wrapper">
+    <div class="card">
+      <div class="logo-container">
+        <!-- Using images/logoh.png as requested recently -->
+        <img src="{% static 'images/logoh.png' %}" alt="Brolichi Logo">
+      </div>
 
-  <button type="submit" class="login-btn">Secure Login</button>
+      <h2>Sign In to Continue</h2>
 
-  {% if messages %}
-    <div class="error" style="display: block;">
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
+      <form action="{% url 'admin_login' %}" method="POST">
+        {% csrf_token %}
+
+        {% if messages %}
+        <div class="error-msg">
+          {% for message in messages %}
+          {{ message }}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label for="username">Email Address</label>
+          <div class="input-wrapper">
+            <svg class="icon-left" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+              </path>
+            </svg>
+            <input type="text" id="username" name="username" placeholder="Enter your email" required
+              autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <svg class="icon-left" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+              </path>
+            </svg>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required
+              autocomplete="current-password">
+            <div class="toggle-password" onclick="togglePasswordVisibility()">
+              <svg id="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                </path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Sign In</button>
+      </form>
+
+      <div class="footer-text">
+        This portal is restricted to authorised administrators only
+      </div>
     </div>
-  {% endif %}
-</form>
-
-<div class="extra">
-  <span style="color: #FF8A00;">Brolichi</span> Creation Enterprises
-</div>
-</div>
+  </div>
 
   <script>
-    // Traditional POST handle ensures Django CSRF and Auth work out of the box
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eye-icon');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>';
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+      }
+    }
   </script>
 
-  <style>
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-  </style>
-
 </body>
+
 </html>

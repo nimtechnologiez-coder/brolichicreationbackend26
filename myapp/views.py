@@ -64,7 +64,21 @@ def admin_login(request):
         u = request.POST.get('username')
         p = request.POST.get('password')
         print(f"[DEBUG] Login attempt for: {u}")
-        user = authenticate(request, username=u, password=p)
+        
+        # If an email is provided, map it to the corresponding username
+        from django.contrib.auth.models import User
+        if u and '@' in u:
+            try:
+                user_obj = User.objects.get(email=u)
+                
+                # Keep original u for logging, use username for auth
+                auth_u = user_obj.username
+            except User.DoesNotExist:
+                auth_u = u
+        else:
+            auth_u = u
+            
+        user = authenticate(request, username=auth_u, password=p)
         if user is not None:
             print(f"[DEBUG] Auth SUCCESS for: {u}")
             login(request, user)
