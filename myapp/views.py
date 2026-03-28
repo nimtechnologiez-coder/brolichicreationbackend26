@@ -11,6 +11,7 @@ from django.contrib import messages
 
 # API for React
 def api_jobs(request):
+    print("[DEBUG] /api/jobs/ endpoint hit!")
     jobs = Job.objects.all().order_by('-posted_at')
     jobs_list = []
     for job in jobs:
@@ -19,10 +20,12 @@ def api_jobs(request):
             'title': job.title,
             'location': job.location,
             'department': job.department,
-            'type': job.job_type,
+            'type': job.job_type,       # For backwards compatibility
+            'job_type': job.job_type,   # For common React component expectations
             'description': job.description,
             'responsibilities': [r.strip() for r in job.responsibilities.split('\n') if r.strip()] if job.responsibilities else [],
             'requirements': [r.strip() for r in job.requirements.split('\n') if r.strip()] if job.requirements else [],
+            'posted_at': job.posted_at.strftime('%Y-%m-%d %H:%M:%S') if job.posted_at else None,
         })
     return JsonResponse(jobs_list, safe=False)
 
